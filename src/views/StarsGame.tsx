@@ -1,35 +1,35 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import ConfettiExplosion, {ConfettiProps} from 'react-confetti-explosion';
 
 const StarsGame = () => {
   const [maxStars,] = useState(3);
-  const CHECKSTATE_DEFAULT_VALUE = new Array(maxStars).fill(false);
-  const [checkedState, setCheckedState] = useState(CHECKSTATE_DEFAULT_VALUE);
+  const [currentCheckedNumber, setCheckedState] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
   const explostionParams: ConfettiProps = {
     force: 0.8,
     duration: 5000,
-    particleCount: 300,
+    particleCount: 200,
     width: 1600,
     colors: ['#041E43', '#1471BF', '#5BB4DC', '#FC027B', '#66D805'],
   }
 
   const handleOnChange = (position: number) => {
-    const canCheck = position === checkedState.filter((s) => !!s).length;
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position && canCheck ? !item : item
-    );
-    if(updatedCheckedState.every((s) => !!s)) {
-      setIsFinished(true);
+    if(currentCheckedNumber === position) {
+      setCheckedState(state => state + 1);
     }
-    setCheckedState(updatedCheckedState);
   };
 
   const restart = () => {
-    setCheckedState(CHECKSTATE_DEFAULT_VALUE)
+    setCheckedState(0)
     setIsFinished(false);
   }
+
+  useEffect(() => {
+    if(currentCheckedNumber === maxStars) {
+      setIsFinished(true)
+    }
+  }, [currentCheckedNumber] )
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -45,8 +45,8 @@ const StarsGame = () => {
 
                 {/* this hidden checkbox controls the state */}
                 <input key={starIdx} type="checkbox"  onChange={() => handleOnChange(index)}
-                       disabled={checkedState[index]}
-                       checked={checkedState[index]} />
+                       disabled={index < currentCheckedNumber}
+                       checked={index < currentCheckedNumber} />
 
                 <div className="swap-on">⭐</div>
                 <div className="swap-off">✩</div>

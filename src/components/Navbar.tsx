@@ -1,6 +1,7 @@
-import { PencilIcon } from '@heroicons/react/20/solid'
+import { SpeakerWaveIcon } from '@heroicons/react/20/solid'
 import {useState} from "react";
 import useDarkMode from "../hooks/useDarkMode";
+import {NavLink} from 'react-router-dom'
 
 const Navbar = () => {
   const [colorTheme, setTheme] = useDarkMode();
@@ -13,8 +14,8 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1 ">
-        <PencilIcon className="h-6 w-6 mx-1" />
-        <span>Speech Therapist Tools</span>
+        <SpeakerWaveIcon className="h-6 w-6 mx-1" />
+        <NavLink to="/"><span>Speech Therapist Tools</span></NavLink>
       </div>
       <div className="flex-none">
         <label className="swap swap-rotate">
