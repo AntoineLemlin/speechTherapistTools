@@ -2,7 +2,7 @@ import {useState} from "react";
 import ConfettiExplosion, {ConfettiProps} from 'react-confetti-explosion';
 
 const StarsGame = () => {
-  const [maxStars, setMaxStars] = useState(3);
+  const [maxStars,] = useState(3);
   const CHECKSTATE_DEFAULT_VALUE = new Array(maxStars).fill(false);
   const [checkedState, setCheckedState] = useState(CHECKSTATE_DEFAULT_VALUE);
   const [isFinished, setIsFinished] = useState(false);
@@ -44,7 +44,7 @@ const StarsGame = () => {
               <label className="swap text-9xl">
 
                 {/* this hidden checkbox controls the state */}
-                <input type="checkbox"  onChange={() => handleOnChange(index)}
+                <input key={starIdx} type="checkbox"  onChange={() => handleOnChange(index)}
                        disabled={checkedState[index]}
                        checked={checkedState[index]} />
 
