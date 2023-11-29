@@ -37,6 +37,12 @@ const StarsGame = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxStars])
 
+  useEffect(() => {
+    if(currentCheckedNumber === maxStars) {
+      setIsFinished(true);
+    }
+  }, [currentCheckedNumber, maxStars])
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="flex flex-col justify-evenly items-center hero-content text-center max-w-screen-lg w-full h-full relative">
