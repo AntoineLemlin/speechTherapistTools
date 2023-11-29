@@ -1,12 +1,16 @@
 import {useEffect, useRef, useState} from "react";
 import ConfettiExplosion, {ConfettiProps} from 'react-confetti-explosion';
 import Modal from "../components/Modal";
+// @ts-expect-error no types on this lib
+import useSound from "use-sound";
+import applauseSound from '../../public/sounds/applause.mp3';
 
 const StarsGame = () => {
   const [maxStars, setMaxStars] = useState<number>(3);
   const [currentCheckedNumber, setCheckedState] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const numberInputRef = useRef<HTMLInputElement>(null);
+  const [playApplause, {stop: stopApplause}] = useSound(applauseSound);
 
   const explostionParams: ConfettiProps = {
     force: 0.8,
@@ -25,11 +29,12 @@ const StarsGame = () => {
   const restart = () => {
     setCheckedState(0)
     setIsFinished(false);
+    stopApplause();
   }
 
   const updateNumberStars = () => {
     setMaxStars(() => Number(numberInputRef.current?.value))
-    setIsFinished(false)
+    restart();
   }
 
   useEffect(() => {
@@ -40,8 +45,9 @@ const StarsGame = () => {
   useEffect(() => {
     if(currentCheckedNumber === maxStars) {
       setIsFinished(true);
+      playApplause();
     }
-  }, [currentCheckedNumber, maxStars])
+  }, [currentCheckedNumber, maxStars, playApplause])
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -54,7 +60,7 @@ const StarsGame = () => {
                 <div className="label">
                   <span className="label-text">Nombre d'étoiles</span>
                 </div>
-                <input ref={numberInputRef} min={1} max={15} type="number" placeholder="3" className="input input-bordered w-full max-w-xs mb-5" />
+                <input ref={numberInputRef} min={1} max={10} type="number" placeholder="3" defaultValue={maxStars} className="input input-bordered w-full max-w-xs mb-5" />
                 <input className="btn btn-primary" type="submit" value="Sauvergarder" />
               </label>
             </div>
@@ -67,7 +73,7 @@ const StarsGame = () => {
         <div>
           {
             Array.from(Array(maxStars).keys()).map((starIdx, index) => (
-              <label className="swap text-9xl xs:text-4xl">
+              <label className="swap text-9xl xs:text-6xl">
 
                 {/* this hidden checkbox controls the state */}
                 <input key={starIdx} type="checkbox"  onChange={() => handleOnChange(index)}
