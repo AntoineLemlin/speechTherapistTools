@@ -1,5 +1,5 @@
 import {StarIcon} from "@heroicons/react/20/solid";
-import {NavLink, Outlet} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 const Home = () => {
   return (
