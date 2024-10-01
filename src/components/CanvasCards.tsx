@@ -18,7 +18,7 @@ const SPACE_BETWEEN_SIZE = 50;
 const styles = StyleSheet.create({
   svgContainer: {
     width: "50%",
-    height: "50%",
+    height: "33%",
     padding: 5,
   },
   svg: {
